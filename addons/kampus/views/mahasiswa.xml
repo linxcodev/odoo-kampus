@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<record id="mahasiswa_kanban_view" model="ir.ui.view">
+		<field name="name">mahasiswa.kanban</field>
+		<field name="model">mahasiswa</field>
+		<field name="arch" type="xml">
+			<kanban default_group_by="state">
+				<field name="id" />
+				<field name="image" />
+				<field name="name" />
+				<field name="code" />		
+				<field name="tgl_sidang" />
+				<templates>
+					<t t-name="kanban-box">
+						<div t-attf-class="oe_kanban_global_click">
+							<div class="o_kanban_image">
+								<img t-att-src="kanban_image(
+									'mahasiswa','image',record.id.raw_value
+								)" />
+							</div>
+
+							<div class="oe_kanban_details">
+								<div>
+									<field name="name" />
+								</div>
+
+								<div>
+									<field name="code" />
+								</div>
+
+								<div>
+									<field name="tgl_sidang" />
+								</div>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="mahasiswa_calendar_view" model="ir.ui.view">
+		<field name="name">mahasiswa.calendar</field>
+		<field name="model">mahasiswa</field>
+		<field name="arch" type="xml">
+			<calendar string="Jadwal Sidang Mahasiswa"
+			date_start="tgl_sidang" date_stop="tgl_sidang" >
+				<field name="name" />
+				<field name="code" />		
+			</calendar>
+		</field>
+	</record>
+
+	<record id="mahasiswa_search_view" model="ir.ui.view">
+		<field name="name">mahasiswa.search</field>
+		<field name="model">mahasiswa</field>
+		<field name="arch" type="xml">
+			<search string="Mahasiswa">
+				<field name="name" />
+				<field name="code" />		
+				<group expand="0" string="Group By">
+					<filter name="tgl_sidang" context="{'group_by': 'tgl_sidang'}" />
+				</group>	
+			</search>
+		</field>
+	</record>
+
+	<record id="mahasiswa_tree_view" model="ir.ui.view">
+		<field name="name">mahasiswa.tree</field>
+		<field name="model">mahasiswa</field>
+		<field name="arch" type="xml">
+			<tree string="Mahasiswa">
+				<field name="name" />
+				<field name="code" />			
+				<field name="tgl_sidang" />			
+			</tree>
+		</field>
+	</record>
+
+	<record id="mahasiswa_form_view" model="ir.ui.view">
+		<field name="name">mahasiswa.form</field>
+		<field name="model">mahasiswa</field>
+		<field name="arch" type="xml">
+			<form string="Mahasiswa">
+				<header>
+					<button class="oe_highlight" string="Success" type="object"
+					name="button_success"></button>
+
+					<button class="oe_highlight" string="Fail" type="object"
+					name="button_fail"></button>
+
+					<field name="state" widget="statusbar" />
+				</header>
+
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="code"/>
+							<field name="tgl_sidang" />
+						</group>
+
+						<group>
+							<field name="image" widget="image" nolabel="1" />
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_mahasiswa" model="ir.actions.act_window">
+		<field name="name">Mahasiswa</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">mahasiswa</field>
+		<field name="view_mode">tree,form,calendar,kanban</field>
+		<field name="context">{}</field>
+		<field name="domain">[]</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create Your Data Here!
+			</p>
+		</field>
+	</record>
+
+	<menuitem	id="kampus_root_menu"
+				name="Kampus"
+				web_icon="kampus,static/description/icon.png"
+				sequence="7"/>
+
+	<menuitem	id="mahasiswa_menu"
+				name="Mahasiswa" action="action_mahasiswa"
+				parent="kampus_root_menu"
+				sequence="10"/>
+</odoo>
